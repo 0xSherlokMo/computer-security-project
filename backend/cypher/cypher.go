@@ -23,7 +23,7 @@ func (c *Text) Caesar(direction int) string {
 		// [1 .. 25], the offset defined above is added or
 		// subtracted.
 		switch direction {
-		case -1: // encoding
+		case ENCODE: // encoding
 			if char >= 'a'+shift && char <= 'z' ||
 				char >= 'A'+shift && char <= 'Z' {
 				char = char - shift
@@ -31,7 +31,7 @@ func (c *Text) Caesar(direction int) string {
 				char >= 'A' && char < 'A'+shift {
 				char = char - shift + offset
 			}
-		case +1: // decoding
+		case DECODE: // decoding
 			if char >= 'a' && char <= 'z'-shift ||
 				char >= 'A' && char <= 'Z'-shift {
 				char = char + shift

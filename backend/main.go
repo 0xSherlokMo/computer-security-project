@@ -124,8 +124,8 @@ func decodePolyPhoto(ginctx *gin.Context) {
 	}
 	b64Decrypted := request.Monoalphabetic(cypher.DECODE)
 	decode, _ := base64.StdEncoding.DecodeString(b64Decrypted)
-	output, err := os.Create("./output/fileDecodedPolyPhoto.jpg")
+	output, _ := os.Create("./output/fileDecodedPolyPhoto.jpg")
 	defer output.Close()
-	_, err = output.Write(decode)
+	output.Write(decode)
 	ginctx.JSON(http.StatusOK, gin.H{"text": "File is ready :)"})
 }

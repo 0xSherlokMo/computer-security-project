@@ -17,12 +17,17 @@ func main() {
 
 	r.POST("encode/caesar", encodeCaesar)
 	r.POST("decode/caesar", decodeCaesar)
+
 	r.POST("encode/monoaplphabetic", encodeMono)
 	r.POST("decode/monoaplphabetic", decodeMono)
+
 	r.POST("encode/polyalphabetic", encodeMono)
 	r.POST("decode/polyalphabetic", decodeMono)
 	r.POST("encode/polyalphabetic/photo", encodePolyPhoto)
 	r.POST("decode/polyalphabetic/photo", decodePolyPhoto)
+
+	r.POST("encode/playfair", encodePlayFair)
+	r.POST("decode/playfair", decodePlayFair)
 	r.Run()
 }
 
@@ -128,4 +133,28 @@ func decodePolyPhoto(ginctx *gin.Context) {
 	defer output.Close()
 	output.Write(decode)
 	ginctx.JSON(http.StatusOK, gin.H{"text": "File is ready :)"})
+}
+
+func encodePlayFair(ginctx *gin.Context) {
+	var message cypher.PlayFair
+	err := ginctx.BindJSON(&message)
+	if err != nil {
+		log.Println("Error on binding, err:", err)
+		ginctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": err})
+		return
+	}
+
+	ginctx.JSON(http.StatusOK, gin.H{"text": message.Encrypt()})
+}
+
+func decodePlayFair(ginctx *gin.Context) {
+	var message cypher.PlayFair
+	err := ginctx.BindJSON(&message)
+	if err != nil {
+		log.Println("Error on binding, err:", err)
+		ginctx.JSON(http.StatusUnprocessableEntity, gin.H{"error": err})
+		return
+	}
+
+	ginctx.JSON(http.StatusOK, gin.H{"text": message.Decrypt()})
 }

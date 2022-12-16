@@ -24,7 +24,7 @@ func (t *Text) Caesar(direction int) string {
 func (t *Text) Monoalphabetic(direction int) string {
 	var finalString string
 	for idx, character := range t.Message {
-		key := SECRET_KEY_MONOALPHABETIC[idx%len(SECRET_KEY_MONOALPHABETIC)] - 64
+		key := SECRET_KEY_MONOALPHABETIC[idx%len(SECRET_KEY_MONOALPHABETIC)] - 'A' + 1
 		output := utilities.ShiftString(string(character), direction, int(key))
 		finalString += string(output)
 	}
